@@ -28,13 +28,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_2EF584C91401DDC9B23D9CBBB8F7EC53"
+        "OwnerKey" = "8:_17D3D5EDB6DD452792AF8FBF356A0B8B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_17D3D5EDB6DD452792AF8FBF356A0B8B"
+        "OwnerKey" = "8:_2EF584C91401DDC9B23D9CBBB8F7EC53"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -55,6 +55,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -71,6 +79,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -187,15 +203,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Antenna Compare"
-        "ProductCode" = "8:{EB7B2207-534F-4CEA-940B-D6C8C6C9D373}"
-        "PackageCode" = "8:{30DBBC74-8D0E-41D2-A385-EDC64D89778A}"
+        "ProductCode" = "8:{DBC4A20F-88CF-4EC0-A39C-09A1B3507AA7}"
+        "PackageCode" = "8:{E24A849C-AB9B-4364-8FD4-CBE6CBEDF913}"
         "UpgradeCode" = "8:{47DD0FB0-304D-49FC-8CCA-C718B79BA732}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.8.0"
+        "ProductVersion" = "8:1.9.0"
         "Manufacturer" = "8:WM8Q"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -737,7 +753,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_17D3D5EDB6DD452792AF8FBF356A0B8B"
             {
-            "SourcePath" = "8:..\\obj\\Release\\AntennaCompare.exe"
+            "SourcePath" = "8:..\\obj\\Debug\\AntennaCompare.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_12E3736EE9414BB891ABD436F1213D89"

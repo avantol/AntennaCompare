@@ -62,6 +62,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -86,6 +94,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -203,15 +219,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Antenna Compare"
-        "ProductCode" = "8:{DBC4A20F-88CF-4EC0-A39C-09A1B3507AA7}"
-        "PackageCode" = "8:{E24A849C-AB9B-4364-8FD4-CBE6CBEDF913}"
+        "ProductCode" = "8:{E229994E-C918-4CB2-AC48-0FD67F4978E7}"
+        "PackageCode" = "8:{104A6D7D-EDD5-4236-97C7-E04A1A7EE973}"
         "UpgradeCode" = "8:{47DD0FB0-304D-49FC-8CCA-C718B79BA732}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.9.0"
+        "ProductVersion" = "8:1.10.0"
         "Manufacturer" = "8:WM8Q"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

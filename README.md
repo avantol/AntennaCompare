@@ -10,7 +10,7 @@ Compare efficiency of two HF (or VHF) antennas transmitting FT8 simultaneously o
 <br>Set up each transmitter's message to reply to the other, which tends to avoid attracting replies from other stations, for example:
 <br>For antenna #1: &nbsp;&nbsp; WM8Q/P <b>WM8Q</b> DN61
 <br>For antenna #2: &nbsp;&nbsp; WM8Q <b>WM8Q/P</b> DN61
-<br><br>(a) If using two transmitters: Transmit with both <b>on the same time slot</b>, or alternatively
+<br><br>(a) If using two transmitters: Transmit with both <b>on the same time slot</b>.
 <br><br>(a) If using one transmitter: Transmit for 4 consecutive cycles using one antenna, switch to the other antenna, and transmit for 4 consecutive cycles.
 <br><br>Repeat (a) or (b) until PSKReporter shows a significant number of spots, then select 'Compare'.
 <br>(PSKReporter has a query rate limit, so if 'Compare' fails, simply wait a few minutes and try again)

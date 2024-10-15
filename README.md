@@ -11,4 +11,4 @@ Compare efficiency of two HF (or VHF) antennas transmitting FT8 simultaneously o
 <br>For antenna #2: &nbsp;&nbsp; WM8Q <b>WM8Q/P</b> DN61
 <br><br>Transmit <b>on the same time slot</b> until PSKReporter shows a significant number of spots, then select 'Compare'.
 <br>(PSKReporter has a query rate limit, so if 'Compare' fails, simply wait a few minutes and try again)
-<br><br><img src="https://github.com/avantol/AntennaCompare/blob/main/AntennaCompare.JPG">
+<br><br><img src="https://github.com/avantol/AntennaCompare/AntennaCompare.JPG">

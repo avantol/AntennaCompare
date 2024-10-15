@@ -219,15 +219,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Antenna Compare"
-        "ProductCode" = "8:{E229994E-C918-4CB2-AC48-0FD67F4978E7}"
-        "PackageCode" = "8:{104A6D7D-EDD5-4236-97C7-E04A1A7EE973}"
+        "ProductCode" = "8:{7E75EE6D-8FB7-4359-9DF7-F8F33449A12B}"
+        "PackageCode" = "8:{835A64F7-D305-40E7-BD4C-B95D6670D509}"
         "UpgradeCode" = "8:{47DD0FB0-304D-49FC-8CCA-C718B79BA732}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.10.0"
+        "ProductVersion" = "8:1.11.0"
         "Manufacturer" = "8:WM8Q"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -769,7 +769,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_17D3D5EDB6DD452792AF8FBF356A0B8B"
             {
-            "SourcePath" = "8:..\\obj\\Debug\\AntennaCompare.exe"
+            "SourcePath" = "8:..\\obj\\Release\\AntennaCompare.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_12E3736EE9414BB891ABD436F1213D89"

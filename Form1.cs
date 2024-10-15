@@ -24,7 +24,8 @@ namespace AntennaCompare
         string call2;
         string mode;
         string band;
-        readonly int maxTimeDiff = 10;
+        int maxTimeDiff = 10;
+        int txCycles = 1;
         float periodHrs;
         double minDistKm;
         int azimuth;
@@ -49,6 +50,8 @@ namespace AntennaCompare
 
         async void button1_Click(object sender, EventArgs e)
         {
+            maxTimeDiff = 10;      //secs
+
             call1 = textBox6.Text.Trim().ToUpper();
             if (call1 == "" || call1.Length < 3)
             {
@@ -132,6 +135,17 @@ namespace AntennaCompare
             {
                 resultText.Text = "Enter a number of hours between 0.0 and 24";
                 return;
+            }
+
+            if (oneButton.Checked)
+            {
+                if (!Int32.TryParse(textBox7.Text.Trim(), out txCycles) || txCycles < 0 || txCycles > 10)
+                {
+                    resultText.Text = "Enter a number of Tx cycles between 1 and 10";
+                    return;
+                }
+                int cycleTime = radioButton3.Checked ? 30 : 15;
+                maxTimeDiff = (txCycles * (2 *cycleTime)) + 10;      //secs
             }
 
             listBox1.Items.Clear();
@@ -286,7 +300,7 @@ namespace AntennaCompare
                     var period = (periodHrs * -3600).ToString("F0");
                     client.DefaultRequestHeaders.ConnectionClose = true;
                     client.Timeout = new TimeSpan(0, 0, 10);
-                    using (HttpResponseMessage response = await client.GetAsync($"https://retrieve.pskreporter.info/query?senderCallsign={call}&flowStartSeconds={period}&appcontact=psk.avantol@xoxy.net", HttpCompletionOption.ResponseContentRead))
+                    using (HttpResponseMessage response = await client.GetAsync($"https://retrieve.pskreporter.info/query?senderCallsign={call}&flowStartSeconds={period}", HttpCompletionOption.ResponseContentRead))
                     {
                         response.Version = new Version("1.0");
                         using (HttpContent content = response.Content)
@@ -450,6 +464,32 @@ namespace AntennaCompare
         private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
             label6.Enabled = textBox3.Enabled = label7.Enabled = textBox4.Enabled = checkBox2.Checked;
+        }
+
+        private void twoButton_Click(object sender, EventArgs e)
+        {
+            oneButton.Checked = false;
+        }
+
+        private void oneButton_Click(object sender, EventArgs e)
+        {
+            twoButton.Checked = false;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            twoButton.Checked = true;
+            textBox7.Text = "1";
+        }
+
+        private void twoButton_CheckedChanged(object sender, EventArgs e)
+        {
+            label13.Enabled = textBox7.Enabled = label14.Enabled = oneButton.Checked;
+        }
+
+        private void oneButton_CheckedChanged(object sender, EventArgs e)
+        {
+            label13.Enabled = textBox7.Enabled = label14.Enabled = oneButton.Checked;
         }
     }
 }

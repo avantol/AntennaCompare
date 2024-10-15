@@ -1,10 +1,10 @@
 C:\Users\John\source\repos\AntennaCompare\bin\Debug\AntennaCompare.exe.config
 C:\Users\John\source\repos\AntennaCompare\bin\Debug\AntennaCompare.exe
 C:\Users\John\source\repos\AntennaCompare\bin\Debug\AntennaCompare.pdb
-C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.csprojAssemblyReference.cache
 C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.Form1.resources
 C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.Properties.Resources.resources
 C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.csproj.GenerateResource.cache
 C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.csproj.CoreCompileInputs.cache
 C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.exe
 C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.pdb
+C:\Users\John\source\repos\AntennaCompare\obj\Debug\AntennaCompare.csproj.AssemblyReference.cache

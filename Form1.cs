@@ -26,14 +26,17 @@ namespace AntennaCompare
         string band;
         int maxTimeDiff = 10;
         int txCycles = 1;
-        float periodHrs;
+        float periodMins;
         double minDistKm;
         int azimuth;
         int beamWidth;
-        Dictionary<string, List<(int, int, string, string)>> callDict1;
-        Dictionary<string, List<(int, int, string, string)>> callDict2;
+        Dictionary<string, List<(int, int, string, string)>> callDict1 = new Dictionary<string, List<(int, int, string, string)>>();
+        Dictionary<string, List<(int, int, string, string)>> callDict2 = new Dictionary<string, List<(int, int, string, string)>>();
         bool busy;
         bool httpErr;
+        DateTime call1DictDateTime = DateTime.MaxValue;
+        DateTime call2DictDateTime = DateTime.MaxValue;
+        private System.Windows.Forms.Timer ageTimer = new System.Windows.Forms.Timer();
         readonly string[] bands = new string[12] { "2m", "6m", "10m", "12m", "15m", "17m", "20m", "30m", "40m", "60m", "80m", "160m" };
 
         public Form1()
@@ -46,6 +49,9 @@ namespace AntennaCompare
             checkBox2_CheckedChanged(null, null);
             checkBox1_CheckedChanged(null, null);
             comboBox1.Items.AddRange(bands);
+            ageTimer.Interval = 6000;
+            ageTimer.Tick += new System.EventHandler(AgeTimerTick);
+            ageTimer.Start();
         }
 
         async void button1_Click(object sender, EventArgs e)
@@ -131,15 +137,15 @@ namespace AntennaCompare
             }
             band = bands[i];
 
-            if (!Single.TryParse(textBox5.Text.Trim(), out periodHrs) || periodHrs < 0 || periodHrs > 24)
+            if (!Single.TryParse(textBox5.Text.Trim(), out periodMins) || periodMins < 0 || periodMins > 60)
             {
-                resultText.Text = "Enter a number of hours between 0.0 and 24";
+                resultText.Text = "Enter a number of minutes between 0 and 60";
                 return;
             }
 
             if (oneButton.Checked)
             {
-                if (!Int32.TryParse(textBox7.Text.Trim(), out txCycles) || txCycles < 0 || txCycles > 10)
+                if (!Int32.TryParse(textBox7.Text.Trim(), out txCycles) || txCycles < 1 || txCycles > 10)
                 {
                     resultText.Text = "Enter a number of Tx cycles between 1 and 10";
                     return;
@@ -150,6 +156,13 @@ namespace AntennaCompare
 
             listBox1.Items.Clear();
 
+            if (checkBox3.Checked)
+            {
+                ClearCallDicts();
+                checkBox3.Checked = false;
+                checkBox3.Enabled = true;
+            }
+
             int minAz = azimuth - (beamWidth / 2);
             if (minAz < 0) minAz += 360;
             int maxAz = azimuth + (beamWidth / 2);
@@ -157,39 +170,17 @@ namespace AntennaCompare
 #if DEBUG
             if (!Directory.Exists(debugFilePath)) Directory.CreateDirectory(debugFilePath);
 #endif
-            callDict1 = new Dictionary<string, List<(int, int, string, string)>>();
-            callDict2 = new Dictionary<string, List<(int, int, string, string)>>();
-
             button1.Enabled = false;
             resultText.Text = "";
+            Thread.Sleep(250);
 
             try
             {
-                busy = true;
                 httpErr = false;
-
-                await Task.Run(() => GetReceptionReports(call1, callDict1));
-
-                while (busy)
+                if (callDict1.Count == 0)
                 {
-                    Thread.Sleep(500);
-                }
-
-                if (!httpErr)
-                {
-                    if (callDict1.Count == 0)
-                    {
-                        resultText.Text = $"No spots found for {call1}";
-                        return;
-                    }
-
-                    resultText.Text = $"{callDict1.Count} spots found for {call1}";
-                    Thread.Sleep(3000);         //keeps PSKReporter happy
-
                     busy = true;
-                    httpErr = false;
-
-                    await Task.Run(() => GetReceptionReports(call2, callDict2));
+                    await Task.Run(() => GetReceptionReports(call1, callDict1));
 
                     while (busy)
                     {
@@ -198,15 +189,45 @@ namespace AntennaCompare
 
                     if (!httpErr)
                     {
-                        if (callDict2.Count == 0)
+                        if (callDict1.Count == 0)
                         {
-                            resultText.Text = $"No spots found for {call2}";
+                            resultText.Text = $"No PSKReporter spots found for {call1}";
                             return;
                         }
 
-                        resultText.Text = $"{callDict2.Count} spots found for {call2}";
-                        Thread.Sleep(2000);     //let # of spots show
+                        call1DictDateTime = DateTime.Now;
+                        Thread.Sleep(6000);         //let # of spots show, also keeps PSKReporter happy
+                    }
+                }
 
+                if (!httpErr)
+                {
+                    if (callDict2.Count == 0)
+                    {
+                        busy = true;
+                        callDict2 = new Dictionary<string, List<(int, int, string, string)>>();
+                        await Task.Run(() => GetReceptionReports(call2, callDict2));
+
+                        while (busy)
+                        {
+                            Thread.Sleep(500);
+                        }
+
+                        if (!httpErr)
+                        {
+                            if (callDict2.Count == 0)
+                            {
+                                resultText.Text = $"No PSKReporter spots found for {call2}";
+                                return;
+                            }
+
+                            call2DictDateTime = DateTime.Now;
+                            Thread.Sleep(2000);     //let # of spots show
+                        }
+                    }
+
+                    if (!httpErr)
+                    {
                         float snrAvg = 0;
                         int nAvg = 0;
                         bool match = false;
@@ -260,21 +281,24 @@ namespace AntennaCompare
                                 }
                             }
                         }
+                        
                         if (match)
                         {
                             snrAvg /= nAvg;
                             if (snrAvg >= 0)
                             {
-                                resultText.Text = $"{call1} better than {call2} by {snrAvg.ToString("F2")} db (avg).{System.Environment.NewLine}{nAvg} matching spots processed.";
+                                resultText.Text = $"{call1} better than {call2} by {snrAvg.ToString("F2")} db (avg).{System.Environment.NewLine}{nAvg} spots processed.";
                             }
                             else
                             {
-                                resultText.Text = $"{call2} better than {call1} by {(Math.Abs(snrAvg)).ToString("F2")} db (avg).{System.Environment.NewLine}{nAvg} matching spots processed.";
+                                resultText.Text = $"{call2} better than {call1} by {(Math.Abs(snrAvg)).ToString("F2")} db (avg).{System.Environment.NewLine}{nAvg} spots processed.";
                             }
                         }
                         else
                         {
-                            resultText.Text = "No matching spots found";
+                            string opt = (checkBox1.Checked || checkBox2.Checked) ? " or DX/direction" : "";
+                            string desc = (twoButton.Checked ? "No simultaneous spot pairs" : $"No spot pairs within {txCycles} Tx cycle(s)");
+                            resultText.Text = $"{desc} (refine time{opt} options?)";
                         }
                     }
                 }
@@ -296,10 +320,10 @@ namespace AntennaCompare
 
                 try
                 {
-                    resultText.Invoke((MethodInvoker)delegate {resultText.Text = $"Querying {call}...";});
-                    var period = (periodHrs * -3600).ToString("F0");
+                    resultText.Invoke((MethodInvoker)delegate {resultText.Text = $"Querying PSKReporter for {call}...";});
+                    var period = (periodMins * -60).ToString("F0");
                     client.DefaultRequestHeaders.ConnectionClose = true;
-                    client.Timeout = new TimeSpan(0, 0, 10);
+                    client.Timeout = new TimeSpan(0, 0, 20);
                     using (HttpResponseMessage response = await client.GetAsync($"https://retrieve.pskreporter.info/query?senderCallsign={call}&flowStartSeconds={period}", HttpCompletionOption.ResponseContentRead))
                     {
                         response.Version = new Version("1.0");
@@ -307,7 +331,6 @@ namespace AntennaCompare
                         {
                             if (response.IsSuccessStatusCode)
                             {
-                                resultText.Invoke((MethodInvoker)delegate {resultText.Text = $"{call} spots found";});
                                 byte[] ba = await content.ReadAsByteArrayAsync();
                                 string str = Encoding.UTF8.GetString(ba, 0, ba.Length);
                                 StringReader sr = new StringReader(str);
@@ -357,6 +380,7 @@ namespace AntennaCompare
 
                                     if (line.Contains("</receptionReports>"))
                                     {
+                                        resultText.Invoke((MethodInvoker)delegate { resultText.Text = $"{callDict.Keys.Count} PSKReporter spots found for {call}..."; });
                                         endDetected = true;
                                         break;
                                     }
@@ -369,7 +393,7 @@ namespace AntennaCompare
                                 if (!endDetected)
                                 {
                                     httpErr = true;
-                                    resultText.Invoke((MethodInvoker)delegate {resultText.Text = "Unexpected response format, try again";});
+                                    resultText.Invoke((MethodInvoker)delegate {resultText.Text = "Unexpected response format from PSKReporter, try again"; });
                                 }
                             }
                             else
@@ -390,7 +414,7 @@ namespace AntennaCompare
                 catch (Exception err)
                 {
                     httpErr = true;
-                    resultText.Invoke((MethodInvoker)delegate {resultText.Text = $"Query failure: {err.ToString()}";});
+                    resultText.Invoke((MethodInvoker)delegate {resultText.Text = $"Query failure from PSKReporter: {err.ToString()}";});
                 }
 
                 busy = false;
@@ -490,6 +514,73 @@ namespace AntennaCompare
         private void oneButton_CheckedChanged(object sender, EventArgs e)
         {
             label13.Enabled = textBox7.Enabled = label14.Enabled = oneButton.Checked;
+        }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            callDict1 = new Dictionary<string, List<(int, int, string, string)>>();
+            call1DictDateTime = DateTime.MaxValue;
+            AgeTimerTick(null, null);
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            callDict2 = new Dictionary<string, List<(int, int, string, string)>>();
+            call2DictDateTime = DateTime.MaxValue;
+            AgeTimerTick(null, null);
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ClearCallDicts();
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            ClearCallDicts();
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            ClearCallDicts();
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            ClearCallDicts();
+        }
+
+        private void ClearCallDicts()
+        {
+            callDict1 = new Dictionary<string, List<(int, int, string, string)>>();
+            call1DictDateTime = DateTime.MaxValue;
+            callDict2 = new Dictionary<string, List<(int, int, string, string)>>();
+            call2DictDateTime = DateTime.MaxValue;
+            AgeTimerTick(null, null);
+        }
+
+        private void AgeTimerTick(object sender, EventArgs e)
+        {
+            if (callDict1.Count == 0 && callDict2.Count == 0)
+            {
+                label15.Text = "";
+                return;
+            }
+
+            var ts1 = DateTime.Now - call1DictDateTime;
+            var ts2 = DateTime.Now - call2DictDateTime;
+
+            var sec = Math.Max(ts1.TotalSeconds, ts2.TotalSeconds);
+            int min = (int)(sec / 60);
+
+            if (min <= 1)
+            {
+                label15.Text = "";
+                return;
+            }
+
+            string s = (min <= 60 ? $"{min}" : "60+");
+            label15.Text = $"({s} minutes old)";
         }
     }
 }

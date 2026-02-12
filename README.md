@@ -13,7 +13,7 @@ Compare efficiency of two HF (or VHF) antennas transmitting FT8 simultaneously* 
 <br><br>(a) If using two transmitters: Transmit with both <b>on the same time slot</b>.
 <br><br>(a) If using one transmitter: Transmit for 4 consecutive cycles using one antenna, switch to the other antenna, and transmit for 4 consecutive cycles.
 <br><br>Repeat (a) or (b) until PSKReporter shows a significant number of spots, then select 'Compare'.
-<br>(PSKReporter has a query rate limit, so if 'Compare' fails, simply wait a few minutes and try again)
+<br><br>Be aware that the PSKReporter data that AntennaCompare uses is limited to only a few accesses every 10 minutes or so. When you get data for both call signs, don't change the time or call signs unless you absolutely need to... the data is cached so you can adjust any options "below the line" with no problem. 
 <br><br>
 <a href="https://github.com/avantol/AntennaCompare/releases/latest">
 <img src="https://github.com/avantol/AntennaCompare/blob/main/AntennaCompare.JPG"></a>

@@ -14,4 +14,9 @@ Compare efficiency of two HF (or VHF) antennas transmitting FT8 simultaneously* 
 <br><br>(a) If using one transmitter: Transmit for 4 consecutive cycles using one antenna, switch to the other antenna, and transmit for 4 consecutive cycles.
 <br><br>Repeat (a) or (b) until PSKReporter shows a significant number of spots, then select 'Compare'.
 <br>(PSKReporter has a query rate limit, so if 'Compare' fails, simply wait a few minutes and try again)
-<br><br><img src="https://github.com/avantol/AntennaCompare/blob/main/AntennaCompare.JPG">....<img src="https://github.com/avantol/AntennaCompare/blob/main/AntennaCompare-web.jpg">
+<br><br>
+<a href="https://github.com/avantol/AntennaCompare/releases/latest">
+<img src="https://github.com/avantol/AntennaCompare/blob/main/AntennaCompare.JPG"></a>
+...........
+<a href="https://antenna-compare-web.vercel.app/">
+<img src="https://github.com/avantol/AntennaCompare/blob/main/AntennaCompare-web.jpg"></a>

@@ -1,5 +1,6 @@
 # AntennaCompare
-Compare efficiency of two HF (or VHF) antennas transmitting FT8 simultaneously* on practically the same frequency, then automatically analyze the PSKReporter SNR report data.
+(This project has been superseded by the <a href="https://github.com/avantol/antenna-compare-web2">antennna-compare-web2 project</a>, which also sources data from WSPRnet)
+<br><br>Compare efficiency of two HF (or VHF) antennas transmitting FT8 simultaneously* on practically the same frequency, then automatically analyze the PSKReporter SNR report data.
 <br><br>AntennaCompare analyzes the <i>simultaneous</i> signal reports* from around the world, reducing the propagation effects to those that are caused by the antennas, making signal report comparisons meaningful. It's available as a <a href="https://github.com/avantol/AntennaCompare/releases/latest">Windows desktop app</a> or a <a href="https://antenna-compare-web.vercel.app/">web app</a>.
 <br><br>Why use FT8 and not WSPR? Simple, I'm not seeing nearly as many DX stations reporting WSPR as FT8... that makes AntennaCompare perfect for optimizing your new DX creation. You'll find out if your new antenna is more effective than your old antenna... in dB, to several decimal places.
 <br><br>You get VERY useful data (<i>much</i> better than the typical YouTubers saying <i>"It must be good cuz I got some QSOs"</i>), so leave the old antenna up until you can run this comparison... THEN take down the loser after the shootout.
